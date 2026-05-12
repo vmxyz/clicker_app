@@ -3,9 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+
     <title>Document</title>
 </head>
 <body>
-    <img src="Dude_Monster.png">
+    <div id="all">
+        <img src="Cat Love Sticker.gif">
+        <div id="myProgress">
+            <div id="myBar"></div>
+        </div>
+        <div id="myProgress2">
+            <div id="myBar2"></div>
+        </div>
+        <div id="myProgress3">
+            <div id="myBar3"></div>
+        </div>
+        <button onclick="move()">press</button>
+        <button onclick="move2()">press</button>
+        <button onclick="move3()">press</button>
+    </div>
 </body>
 </html>
+
+<script>
+    let width = 0;
+
+    const elem = document.getElementById("myBar");
+    const elem2 = document.getElementById("myBar2");
+    const elem3 = document.getElementById("myBar3"); 
+
+function updateBar() {
+  elem.style.width = width + "%";
+  elem.innerHTML = width + "%";
+}
+
+function move() {
+  if (width < 100) {
+    width += 5;
+
+    if (width > 100) {
+      width = 100;
+    }
+
+    updateBar();
+  }
+}
+
+setInterval(() => {
+  if (width > 0) {
+    width -= 5;
+
+    if (width < 0) {
+      width = 0;
+    }
+
+    updateBar();
+  }
+}, 5000);
+
+let width2 = 0;
+function updateBar2() {
+  elem2.style.width = width2 + "%";
+  elem2.innerHTML = width2 + "%";
+}
+
+function move2() {
+  if (width2 < 100) {
+    width2 += 5;
+
+    if (width2 > 100) {
+      width2 = 100;
+    }
+
+    updateBar2();
+  }
+}
+
+setInterval(() => {
+  if (width2 > 0) {
+    width2 -= 5;
+
+    if (width2 < 0) {
+      width2 = 0;
+    }
+
+    updateBar2();
+  }
+}, 4500);
+
+let width3 = 0;
+function updateBar3() {
+  elem3.style.width = width3 + "%";
+  elem3.innerHTML = width3 + "%";
+}
+
+function move3() {
+  if (width3 < 100) {
+    width3 += 5;
+
+    if (width3 > 100) {
+      width3 = 100;
+    }
+
+    updateBar3();
+  }
+}
+
+setInterval(() => {
+  if (width3 > 0) {
+    width3 -= 5;
+
+    if (width3 < 0) {
+      width3 = 0;
+    }
+
+    updateBar3();
+  }
+}, 5500);
+</script>

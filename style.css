@@ -1,0 +1,27 @@
+#all{
+    margin-left: 20%;
+    margin-right: 20%;
+}
+img{
+    display: flex;
+    justify-self: center;
+    align-self: center;
+}
+#myProgress, #myProgress2, #myProgress3{
+    width: 100%;
+    background-color: rgb(202, 202, 202);
+    border-radius: 7px;
+    margin-bottom: 10px;
+}
+  
+#myBar, #myBar2, #myBar3{
+    width: 0%;
+    height: 30px;
+    background-color: pink;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+    border-radius: 7px;
+    transition: 0.5s ease;
+}
+
