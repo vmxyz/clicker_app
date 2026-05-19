@@ -1,8 +1,21 @@
+html {
+    background-image: url('bcg.jpg'); 
+    background-size: cover;            
+    background-position: center center;    
+    background-repeat: no-repeat;       
+    background-attachment: fixed;       
+  }
+
 #all{
     margin-left: 20%;
     margin-right: 20%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    border: 1px, grey, solid;
+    background-color: rgba(114, 244, 248, 0.473);
 }
-img{
+#cat{
     display: flex;
     justify-self: center;
     align-self: center;
@@ -24,4 +37,12 @@ img{
     border-radius: 7px;
     transition: 0.5s ease;
 }
-
+#image{
+    padding: 0px;
+    margin: 0px;
+}
+#click{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="all">
-        <img src="Cat Love Sticker.gif">
+        <img id="cat" src="Cat Love Sticker.gif">
         <div id="myProgress">
             <div id="myBar"></div>
         </div>
@@ -19,9 +19,12 @@
         <div id="myProgress3">
             <div id="myBar3"></div>
         </div>
-        <button onclick="move()">press</button>
-        <button onclick="move2()">press</button>
-        <img id="image" onclick="move3()"src="download.png">
+        <div id="click">
+          <img id="image" onclick="move()"src="giphy (2).gif" width="100px" height="100px">
+          <img id="image" onclick="move2()"src="giphy (1).gif" width="100px" height="100px">
+          <img id="image" onclick="move3()"src="giphy (3).gif" width="100px" height="100px">
+        </div>
+        
     </div>
 </body>
 </html>
@@ -99,6 +102,7 @@ function updateBar3() {
 }
 
 function move3() {
+
   
   if (width3 < 100) {
     
@@ -108,7 +112,7 @@ function move3() {
       width3 = 100;
     }
     updateBar3();
-    
+  
   }
 }
 
