@@ -21,7 +21,7 @@
         </div>
         <button onclick="move()">press</button>
         <button onclick="move2()">press</button>
-        <button onclick="move3()">press</button>
+        <img id="image" onclick="move3()"src="download.png">
     </div>
 </body>
 </html>
@@ -35,7 +35,7 @@
 
 function updateBar() {
   elem.style.width = width + "%";
-  elem.innerHTML = width + "%";
+  elem.innerHTML = "Happiness " + width + "%";
 }
 
 function move() {
@@ -65,7 +65,7 @@ setInterval(() => {
 let width2 = 0;
 function updateBar2() {
   elem2.style.width = width2 + "%";
-  elem2.innerHTML = width2 + "%";
+  elem2.innerHTML ="Energy " + width2 + "%";
 }
 
 function move2() {
@@ -95,18 +95,20 @@ setInterval(() => {
 let width3 = 0;
 function updateBar3() {
   elem3.style.width = width3 + "%";
-  elem3.innerHTML = width3 + "%";
+  elem3.innerHTML ="Hunger " + width3 + "%";
 }
 
 function move3() {
+  
   if (width3 < 100) {
+    
     width3 += 5;
 
     if (width3 > 100) {
       width3 = 100;
     }
-
     updateBar3();
+    
   }
 }
 
