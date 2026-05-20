@@ -66,34 +66,35 @@ setInterval(() => {
 }, 5000);
 
 let width2 = 0;
+
 function updateBar2() {
   elem2.style.width = width2 + "%";
-  elem2.innerHTML ="Energy " + width2 + "%";
+  elem2.innerHTML = "Energy " + width2 + "%";
 }
 
 function move2() {
-  if (width2 < 100) {
-    width2 += 5;
+  isGrowing = true;
+  let targetWidth = width2 + 50;
+  if (targetWidth > 100) targetWidth = 100;
 
-    if (width2 > 100) {
-      width2 = 100;
+  let timer = setInterval(() => {
+    if (width2 < targetWidth) {
+      width2 += 1;
+      updateBar2();
+    } else {
+      clearInterval(timer);
+      isGrowing = false;
     }
-
-    updateBar2();
-  }
+  }, 1000); 
 }
 
 setInterval(() => {
-  if (width2 > 0) {
+  if (width2 > 0 && !isGrowing) {
     width2 -= 5;
-
-    if (width2 < 0) {
-      width2 = 0;
-    }
-
+    if (width2 < 0) width2 = 0;
     updateBar2();
   }
-}, 4500);
+}, 8000);
 
 let width3 = 0;
 function updateBar3() {
