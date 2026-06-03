@@ -4,128 +4,232 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-
-    <title>Document</title>
+    <title>Virtual Pet Tycoon - Custom Thoughts</title>
 </head>
 <body>
     <div id="all">
-        <img id="cat" src="Cat Love Sticker.gif">
-        <div id="myProgress">
-            <div id="myBar"></div>
+        <div id="stats">
+            <h2 id="coinDisplay">🪙 Coins: 10</h2>
         </div>
-        <div id="myProgress2">
-            <div id="myBar2"></div>
-        </div>
-        <div id="myProgress3">
-            <div id="myBar3"></div>
-        </div>
-        <div id="click">
-          <img id="image" onclick="move()"src="giphy (2).gif" width="100px" height="100px">
-          <img id="image" onclick="move2()"src="giphy (1).gif" width="100px" height="100px">
-          <img id="image" onclick="move3()"src="giphy (3).gif" width="100px" height="100px">
+
+        <div id="pet-container">
+            <div id="thought-bubble">
+                <img id="thought-gif" src="" alt="Thinking...">
+            </div>
+            <img id="cat" src="Cat Love Sticker.gif" alt="My Pet">
         </div>
         
+        <div id="myProgress"><div id="myBar"></div></div>
+        <div id="myProgress2"><div id="myBar2"></div></div>
+        <div id="myProgress3"><div id="myBar3"></div></div>
+
+        <div id="click">
+            <div class="action-card">
+                <img id="btn-toys" class="action-btn" onclick="move()" src="giphy (2).gif" width="100px" height="100px">
+                <p id="toyStatus" class="status-text">Adds +5%<br><span class="reward-tag">Payout: +1🪙</span></p>
+            </div>
+            
+            <div class="action-card">
+                <img id="btn-sleep" class="action-btn" onclick="move2()" src="giphy (1).gif" width="100px" height="100px">
+                <p id="sleepStatus" class="status-text">Adds +5%<br><span class="reward-tag">Payout: +1🪙</span></p>
+            </div>
+            
+            <div class="action-card">
+                <img id="btn-food" class="action-btn" onclick="move3()" src="giphy (3).gif" width="100px" height="100px">
+                <p id="foodStatus" class="status-text">Adds +5%<br><span class="cost-tag">Cost: 1🪙</span> | <span class="reward-tag">Payout: +1🪙</span></p>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div id="upgrade-section">
+            <h3>🛒 Shop Upgrades</h3>
+            <div id="upgrade-container" class="upgrade-buttons">
+                <button id="up-toy-btn" class="up-btn" onclick="upgradeToys()">🧸 Upgrade Toy<br><span id="up-toy-cost">5🪙</span></button>
+                <button id="up-sleep-btn" class="up-btn" onclick="upgradeSleep()">🛏️ Upgrade Bed<br><span id="up-sleep-cost">5🪙</span></button>
+                <button id="up-food-btn" class="up-btn" onclick="upgradeFood()">🍲 Upgrade Food<br><span id="up-food-cost">5🪙</span></button>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Core Game Stats
+        let coins = 10;
+        let width = 100;  
+        let width2 = 100; 
+        let width3 = 100; 
+        
+        let isDead = false; 
+
+        // Upgrade Tracking Variables
+        let toyPower = 5;
+        let toyUpgradeCost = 5;
+        let toyReward = 1;
+
+        let sleepPower = 5;
+        let sleepUpgradeCost = 5;
+        let sleepReward = 1;
+
+        let foodPower = 5;
+        let foodUpgradeCost = 5;
+        let foodActionCost = 1; 
+        let foodReward = 1;
+
+        // DOM Elements
+        const petEl = document.getElementById("cat");
+        const bubbleEl = document.getElementById("thought-bubble");
+        const thoughtGifEl = document.getElementById("thought-gif");
+        
+        const elem = document.getElementById("myBar");
+        const elem2 = document.getElementById("myBar2");
+        const elem3 = document.getElementById("myBar3");
+        const coinEl = document.getElementById("coinDisplay");
+        const btnToys = document.getElementById("btn-toys");
+        const btnSleep = document.getElementById("btn-sleep");
+        const upgradeContainer = document.getElementById("upgrade-container");
+
+        // UI Refresh Functions
+        function updateCoins() { coinEl.innerText = "🪙 Coins: " + coins; }
+        function updateBar() { elem.style.width = width + "%"; elem.innerHTML = "Happiness " + width + "%"; }
+        function updateBar2() { elem2.style.width = width2 + "%"; elem2.innerHTML = "Energy " + width2 + "%"; }
+        function updateBar3() { elem3.style.width = width3 + "%"; elem3.innerHTML ="Hunger " + width3 + "%"; }
+        
+        function updateLabels() {
+            document.getElementById("toyStatus").innerHTML = `Adds +${toyPower}%<br><span class="reward-tag">Payout: +${toyReward}🪙</span>`;
+            document.getElementById("sleepStatus").innerHTML = `Adds +${sleepPower}%<br><span class="reward-tag">Payout: +${sleepReward}🪙</span>`;
+            document.getElementById("foodStatus").innerHTML = `Adds +${foodPower}%<br><span class="cost-tag">Cost: ${foodActionCost}🪙</span> | <span class="reward-tag">Payout: +${foodReward}🪙</span>`;
+            
+            document.getElementById("up-toy-cost").innerText = `${toyUpgradeCost}🪙`;
+            document.getElementById("up-sleep-cost").innerText = `${sleepUpgradeCost}🪙`;
+            document.getElementById("up-food-cost").innerText = `${foodUpgradeCost}🪙`;
+        }
+
+        // --- Thought Cloud & Death Logic ---
+        function updatePetThoughts() {
+            if (isDead) return;
+
+            // 1. Check for Death Conditions
+            if (width === 0 && width2 === 0 && width3 === 0) {
+                isDead = true;
+                // Swapping to your uploaded gravestone file name
+                petEl.src = "Dying Trick Or Treat Sticker by Josie.gif"; 
+                petEl.alt = "Gravestone - RIP";
+                bubbleEl.style.display = "none"; 
+                
+                document.getElementById("click").style.opacity = "0.2";
+                document.getElementById("click").style.pointerEvents = "none"; 
+                upgradeContainer.style.opacity = "0.2";
+                upgradeContainer.style.pointerEvents = "none";
+                alert("Oh no! Your pet has passed away. RIP.");
+                return;
+            }
+
+            // 2. Check if any stat is lower than 40%
+            if (width < 40 || width2 < 40 || width3 < 40) {
+                bubbleEl.style.display = "flex"; // Show container using flex layout to center the gif
+                
+                let lowestStat = Math.min(width, width2, width3);
+                
+                // Changes the inner image src to match your main action panel GIFs
+                if (lowestStat === width3) {
+                    thoughtGifEl.src = "giphy (3).gif"; // Wants Food
+                } else if (lowestStat === width) {
+                    thoughtGifEl.src = "giphy (2).gif"; // Wants Toys
+                } else {
+                    thoughtGifEl.src = "giphy (1).gif"; // Wants Sleep
+                }
+            } else {
+                bubbleEl.style.display = "none"; 
+            }
+        }
+
+        // Initialize Screen
+        updateBar(); updateBar2(); updateBar3(); updateCoins(); updateLabels();
+        updatePetThoughts(); 
+
+        // Spam Protection System
+        let toyClicks = 0;   let isToyCooldown = false;
+        let sleepClicks = 0; let isSleepCooldown = false;
+
+        // --- GAME ACTIONS ---
+
+        function move() {
+            if (isDead || isToyCooldown) return;
+            if (width < 100) {
+                let oldWidth = width;
+                width += toyPower; if (width > 100) width = 100;
+                if (oldWidth < 100 && width === 100) { coins += toyReward; updateCoins(); }
+                updateBar();
+                updatePetThoughts(); 
+            }
+            toyClicks++;
+            if (toyClicks >= 3) {
+                isToyCooldown = true;
+                btnToys.classList.add("cooldown");
+                setTimeout(() => { isToyCooldown = false; toyClicks = 0; btnToys.classList.remove("cooldown"); }, 5000);
+            }
+        }
+
+        function move2() {
+            if (isDead || isSleepCooldown) return;
+            if (width2 < 100) {
+                let oldWidth = width2;
+                width2 += sleepPower; if (width2 > 100) width2 = 100;
+                if (oldWidth < 100 && width2 === 100) { coins += sleepReward; updateCoins(); }
+                updateBar2();
+                updatePetThoughts(); 
+            }
+            sleepClicks++;
+            if (sleepClicks >= 3) {
+                isSleepCooldown = true;
+                btnSleep.classList.add("cooldown");
+                setTimeout(() => { isSleepCooldown = false; sleepClicks = 0; btnSleep.classList.remove("cooldown"); }, 5000);
+            }
+        }
+
+        function move3() {
+            if (isDead || width3 >= 100) return; 
+            if (coins >= foodActionCost) {
+                coins -= foodActionCost;
+                let oldWidth = width3;
+                width3 += foodPower; if (width3 > 100) width3 = 100;
+                if (oldWidth < 100 && width3 === 100) { coins += foodReward; }
+                updateCoins();
+                updateBar3();
+                updatePetThoughts(); 
+            } else { alert(`Not enough coins! Feeding costs ${foodActionCost} coins.`); }
+        }
+
+        // --- UPGRADE SHOP ACTIONS ---
+
+        function upgradeToys() {
+            if (isDead) return;
+            if (coins >= toyUpgradeCost) {
+                coins -= toyUpgradeCost; toyPower += 5; toyReward += 2; toyUpgradeCost *= 2; 
+                updateCoins(); updateLabels();
+            } else { alert("Not enough coins for this upgrade!"); }
+        }
+
+        function upgradeSleep() {
+            if (isDead) return;
+            if (coins >= sleepUpgradeCost) {
+                coins -= sleepUpgradeCost; sleepPower += 5; sleepReward += 2; sleepUpgradeCost *= 2; 
+                updateCoins(); updateLabels();
+            } else { alert("Not enough coins for this upgrade!"); }
+        }
+
+        function upgradeFood() {
+            if (isDead) return;
+            if (coins >= foodUpgradeCost) {
+                coins -= foodUpgradeCost; foodPower += 5; foodReward += 2; foodUpgradeCost *= 2; foodActionCost += 1;   
+                updateCoins(); updateLabels();
+            } else { alert("Not enough coins for this upgrade!"); }
+        }
+
+        // --- Passive Drain Timers --- 
+        setInterval(() => { if (!isDead && width > 0) { width -= 5; if (width < 0) width = 0; updateBar(); updatePetThoughts(); } }, 5000);
+        setInterval(() => { if (!isDead && width2 > 0) { width2 -= 5; if (width2 < 0) width2 = 0; updateBar2(); updatePetThoughts(); } }, 8000);
+        setInterval(() => { if (!isDead && width3 > 0) { width3 -= 5; if (width3 < 0) width3 = 0; updateBar3(); updatePetThoughts(); } }, 10000);
+    </script>
 </body>
 </html>
-
-<script>
-    let width = 0;
-
-    const elem = document.getElementById("myBar");
-    const elem2 = document.getElementById("myBar2");
-    const elem3 = document.getElementById("myBar3"); 
-
-function updateBar() {
-  elem.style.width = width + "%";
-  elem.innerHTML = "Happiness " + width + "%";
-}
-
-function move() {
-  if (width < 100) {
-    width += 5;
-
-    if (width > 100) {
-      width = 100;
-    }
-
-    updateBar();
-  }
-}
-
-setInterval(() => {
-  if (width > 0) {
-    width -= 5;
-
-    if (width < 0) {
-      width = 0;
-    }
-
-    updateBar();
-  }
-}, 5000);
-
-let width2 = 0;
-
-function updateBar2() {
-  elem2.style.width = width2 + "%";
-  elem2.innerHTML = "Energy " + width2 + "%";
-}
-
-function move2() {
-  isGrowing = true;
-  let targetWidth = width2 + 50;
-  if (targetWidth > 100) targetWidth = 100;
-
-  let timer = setInterval(() => {
-    if (width2 < targetWidth) {
-      width2 += 1;
-      updateBar2();
-    } else {
-      clearInterval(timer);
-      isGrowing = false;
-    }
-  }, 1000); 
-}
-
-setInterval(() => {
-  if (width2 > 0 && !isGrowing) {
-    width2 -= 5;
-    if (width2 < 0) width2 = 0;
-    updateBar2();
-  }
-}, 8000);
-
-let width3 = 0;
-function updateBar3() {
-  elem3.style.width = width3 + "%";
-  elem3.innerHTML ="Hunger " + width3 + "%";
-}
-
-function move3() {
-
-  
-  if (width3 < 100) {
-    
-    width3 += 5;
-
-    if (width3 > 100) {
-      width3 = 100;
-    }
-    updateBar3();
-  
-  }
-}
-
-setInterval(() => {
-  if (width3 > 0) {
-    width3 -= 5;
-
-    if (width3 < 0) {
-      width3 = 0;
-    }
-
-    updateBar3();
-  }
-}, 5500);
-</script>
