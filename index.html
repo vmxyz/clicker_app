@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Virtual Pet Tycoon - Custom Thoughts</title>
+    <title>Tamagotchi</title>
 </head>
 <body>
     <div id="all">
         <div id="stats">
-            <h2 id="coinDisplay">🪙 Coins: 10</h2>
+            <h2 id="coinDisplay"><img src="Gold Cash Sticker.gif" style="width: 1.2em; vertical-align: middle;" alt="Coin"> Coins: 10</h2>
         </div>
 
         <div id="pet-container">
@@ -26,17 +26,17 @@
         <div id="click">
             <div class="action-card">
                 <img id="btn-toys" class="action-btn" onclick="move()" src="giphy (2).gif" width="100px" height="100px">
-                <p id="toyStatus" class="status-text">Adds +5%<br><span class="reward-tag">Payout: +1🪙</span></p>
+                <p id="toyStatus" class="status-text">Adds +5%<br><span class="reward-tag">Payout: +1 <img src="Gold Cash Sticker.gif" style="width: 1em; vertical-align: middle;" alt="Coin"></span></p>
             </div>
             
             <div class="action-card">
                 <img id="btn-sleep" class="action-btn" onclick="move2()" src="giphy (1).gif" width="100px" height="100px">
-                <p id="sleepStatus" class="status-text">Adds +5%<br><span class="reward-tag">Payout: +1🪙</span></p>
+                <p id="sleepStatus" class="status-text">Adds +5%<br><span class="reward-tag">Payout: +1 <img src="Gold Cash Sticker.gif" style="width: 1em; vertical-align: middle;" alt="Coin"></span></p>
             </div>
             
             <div class="action-card">
                 <img id="btn-food" class="action-btn" onclick="move3()" src="giphy (3).gif" width="100px" height="100px">
-                <p id="foodStatus" class="status-text">Adds +5%<br><span class="cost-tag">Cost: 1🪙</span> | <span class="reward-tag">Payout: +1🪙</span></p>
+                <p id="foodStatus" class="status-text">Adds +5%<br><span class="cost-tag">Cost: 1 <img src="Gold Cash Sticker.gif" style="width: 1em; vertical-align: middle;" alt="Coin"></span> | <span class="reward-tag">Payout: +1 <img src="Gold Cash Sticker.gif" style="width: 1em; vertical-align: middle;" alt="Coin"></span></p>
             </div>
         </div>
 
@@ -45,15 +45,14 @@
         <div id="upgrade-section">
             <h3>🛒 Shop Upgrades</h3>
             <div id="upgrade-container" class="upgrade-buttons">
-                <button id="up-toy-btn" class="up-btn" onclick="upgradeToys()">🧸 Upgrade Toy<br><span id="up-toy-cost">5🪙</span></button>
-                <button id="up-sleep-btn" class="up-btn" onclick="upgradeSleep()">🛏️ Upgrade Bed<br><span id="up-sleep-cost">5🪙</span></button>
-                <button id="up-food-btn" class="up-btn" onclick="upgradeFood()">🍲 Upgrade Food<br><span id="up-food-cost">5🪙</span></button>
+                <button id="up-toy-btn" class="up-btn" onclick="upgradeToys()">🧸 Upgrade Toy<br><span id="up-toy-cost">5 <img src="Gold Cash Sticker.gif" style="width: 1em; vertical-align: middle;" alt="Coin"></span></button>
+                <button id="up-sleep-btn" class="up-btn" onclick="upgradeSleep()">🛏️ Upgrade Bed<br><span id="up-sleep-cost">5 <img src="Gold Cash Sticker.gif" style="width: 1em; vertical-align: middle;" alt="Coin"></span></button>
+                <button id="up-food-btn" class="up-btn" onclick="upgradeFood()">🍲 Upgrade Food<br><span id="up-food-cost">5 <img src="Gold Cash Sticker.gif" style="width: 1em; vertical-align: middle;" alt="Coin"></span></button>
             </div>
         </div>
     </div>
 
     <script>
-        // Core Game Stats
         let coins = 10;
         let width = 100;  
         let width2 = 100; 
@@ -61,7 +60,6 @@
         
         let isDead = false; 
 
-        // Upgrade Tracking Variables
         let toyPower = 5;
         let toyUpgradeCost = 5;
         let toyReward = 1;
@@ -75,7 +73,6 @@
         let foodActionCost = 1; 
         let foodReward = 1;
 
-        // DOM Elements
         const petEl = document.getElementById("cat");
         const bubbleEl = document.getElementById("thought-bubble");
         const thoughtGifEl = document.getElementById("thought-gif");
@@ -88,30 +85,33 @@
         const btnSleep = document.getElementById("btn-sleep");
         const upgradeContainer = document.getElementById("upgrade-container");
 
-        // UI Refresh Functions
-        function updateCoins() { coinEl.innerText = "🪙 Coins: " + coins; }
+        function getCoinImg(size = "1em") {
+            return `<img src="Gold Cash Sticker.gif" style="width: ${size}; vertical-align: middle;" alt="Coin">`;
+        }
+
+        function updateCoins() { 
+            coinEl.innerHTML = `${getCoinImg('1.2em')} Coins: ${coins}`; 
+        }
+
         function updateBar() { elem.style.width = width + "%"; elem.innerHTML = "Happiness " + width + "%"; }
         function updateBar2() { elem2.style.width = width2 + "%"; elem2.innerHTML = "Energy " + width2 + "%"; }
         function updateBar3() { elem3.style.width = width3 + "%"; elem3.innerHTML ="Hunger " + width3 + "%"; }
         
         function updateLabels() {
-            document.getElementById("toyStatus").innerHTML = `Adds +${toyPower}%<br><span class="reward-tag">Payout: +${toyReward}🪙</span>`;
-            document.getElementById("sleepStatus").innerHTML = `Adds +${sleepPower}%<br><span class="reward-tag">Payout: +${sleepReward}🪙</span>`;
-            document.getElementById("foodStatus").innerHTML = `Adds +${foodPower}%<br><span class="cost-tag">Cost: ${foodActionCost}🪙</span> | <span class="reward-tag">Payout: +${foodReward}🪙</span>`;
+            document.getElementById("toyStatus").innerHTML = `Adds +${toyPower}%<br><span class="reward-tag">Payout: +${toyReward} ${getCoinImg()}</span>`;
+            document.getElementById("sleepStatus").innerHTML = `Adds +${sleepPower}%<br><span class="reward-tag">Payout: +${sleepReward} ${getCoinImg()}</span>`;
+            document.getElementById("foodStatus").innerHTML = `Adds +${foodPower}%<br><span class="cost-tag">Cost: ${foodActionCost} ${getCoinImg()}</span> | <span class="reward-tag">Payout: +${foodReward} ${getCoinImg()}</span>`;
             
-            document.getElementById("up-toy-cost").innerText = `${toyUpgradeCost}🪙`;
-            document.getElementById("up-sleep-cost").innerText = `${sleepUpgradeCost}🪙`;
-            document.getElementById("up-food-cost").innerText = `${foodUpgradeCost}🪙`;
+            document.getElementById("up-toy-cost").innerHTML = `${toyUpgradeCost} ${getCoinImg()}`;
+            document.getElementById("up-sleep-cost").innerHTML = `${sleepUpgradeCost} ${getCoinImg()}`;
+            document.getElementById("up-food-cost").innerHTML = `${foodUpgradeCost} ${getCoinImg()}`;
         }
 
-        // --- Thought Cloud & Death Logic ---
         function updatePetThoughts() {
             if (isDead) return;
 
-            // 1. Check for Death Conditions
             if (width === 0 && width2 === 0 && width3 === 0) {
                 isDead = true;
-                // Swapping to your uploaded gravestone file name
                 petEl.src = "Dying Trick Or Treat Sticker by Josie.gif"; 
                 petEl.alt = "Gravestone - RIP";
                 bubbleEl.style.display = "none"; 
@@ -120,38 +120,32 @@
                 document.getElementById("click").style.pointerEvents = "none"; 
                 upgradeContainer.style.opacity = "0.2";
                 upgradeContainer.style.pointerEvents = "none";
-                alert("Oh no! Your pet has passed away. RIP.");
+                alert("Oh no! Your Tamagotchi has passed away. RIP.");
                 return;
             }
 
-            // 2. Check if any stat is lower than 40%
             if (width < 40 || width2 < 40 || width3 < 40) {
-                bubbleEl.style.display = "flex"; // Show container using flex layout to center the gif
+                bubbleEl.style.display = "flex"; 
                 
                 let lowestStat = Math.min(width, width2, width3);
                 
-                // Changes the inner image src to match your main action panel GIFs
                 if (lowestStat === width3) {
-                    thoughtGifEl.src = "giphy (3).gif"; // Wants Food
+                    thoughtGifEl.src = "giphy (3).gif"; 
                 } else if (lowestStat === width) {
-                    thoughtGifEl.src = "giphy (2).gif"; // Wants Toys
+                    thoughtGifEl.src = "giphy (2).gif"; 
                 } else {
-                    thoughtGifEl.src = "giphy (1).gif"; // Wants Sleep
+                    thoughtGifEl.src = "giphy (1).gif"; 
                 }
             } else {
                 bubbleEl.style.display = "none"; 
             }
         }
 
-        // Initialize Screen
         updateBar(); updateBar2(); updateBar3(); updateCoins(); updateLabels();
         updatePetThoughts(); 
 
-        // Spam Protection System
         let toyClicks = 0;   let isToyCooldown = false;
         let sleepClicks = 0; let isSleepCooldown = false;
-
-        // --- GAME ACTIONS ---
 
         function move() {
             if (isDead || isToyCooldown) return;
@@ -200,8 +194,6 @@
             } else { alert(`Not enough coins! Feeding costs ${foodActionCost} coins.`); }
         }
 
-        // --- UPGRADE SHOP ACTIONS ---
-
         function upgradeToys() {
             if (isDead) return;
             if (coins >= toyUpgradeCost) {
@@ -226,7 +218,6 @@
             } else { alert("Not enough coins for this upgrade!"); }
         }
 
-        // --- Passive Drain Timers --- 
         setInterval(() => { if (!isDead && width > 0) { width -= 5; if (width < 0) width = 0; updateBar(); updatePetThoughts(); } }, 5000);
         setInterval(() => { if (!isDead && width2 > 0) { width2 -= 5; if (width2 < 0) width2 = 0; updateBar2(); updatePetThoughts(); } }, 8000);
         setInterval(() => { if (!isDead && width3 > 0) { width3 -= 5; if (width3 < 0) width3 = 0; updateBar3(); updatePetThoughts(); } }, 10000);
